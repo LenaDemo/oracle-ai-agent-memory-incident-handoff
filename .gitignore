@@ -1,0 +1,15 @@
+# Local environments and credentials
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Generated outputs can contain local configuration or model responses
+results/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.DS_Store
