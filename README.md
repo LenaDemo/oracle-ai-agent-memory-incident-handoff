@@ -62,16 +62,22 @@ Wait for `DATABASE IS READY TO USE!`, then press Ctrl-C to stop following the lo
 
 The helper generates passwords in an owner-readable `.env` file. The repository excludes that file. The container listens on `127.0.0.1:1522` and stores data in its own Docker volume, `oracle-incident-demo-data`. The application uses the `incident_demo` database user and `INCIDENT_DEMO_TS` tablespace with a 500 MB limit. The setup creates this tablespace because the Free Lite image does not include a `USERS` tablespace.
 
-## Run the notebook
+## Follow the video walkthrough
+
+Open `incident_handoff_reshoot.ipynb`, the notebook used in the final video. It includes the four prepared notes, retrieval comparison, graph, combined handoff and sources view, individual source inspection, and the automatic update example.
 
 Reset this demo's main dataset, then open the notebook:
 
 ```bash
 .venv/bin/python demo.py reset
-.venv/bin/python -m jupyterlab incident_handoff.ipynb
+.venv/bin/python -m jupyterlab incident_handoff_reshoot.ipynb
 ```
 
-Choose the **Oracle Incident Demo** kernel and run the cells in order. Each step launches a fresh Python process. A failed command stops the cell instead of displaying old saved results.
+Choose the **Oracle Incident Demo** kernel and run the cells in order, starting with the imports and `begin_take()` cell. The incident commands launch fresh Python processes; the display cells show their actual saved results. A failed command stops the cell instead of displaying old saved results.
+
+The notebook is distributed with no saved outputs. The initial scenario is a preview of fictional inputs; it does not save them to the database. In the code sections of the video, `demo.py` contains `add_note()`, `evolve()`, and the search configuration. `automatic_update.py` contains the extraction and linking configuration.
+
+The original `incident_handoff.ipynb` remains available for the compact walkthrough and automated validation. Use the reshoot notebook above to follow the final video.
 
 The reset removes only this demo user's records in the main `INC_HANDOFF` memory store. It does not delete a database schema, container, or volume. Run it before repeating the complete walkthrough; the initial-data step refuses to overwrite an existing dataset.
 
@@ -91,7 +97,7 @@ As an alternative to the notebook, run:
 
 Actual outputs are written to the ignored `results/` directory. The automatic example uses a separate `INC_AUTO` store and resets only its own demo user each time. A missing or unexpected automatic link should be inspected as an actual model outcome.
 
-To execute the whole notebook and save its outputs and an HTML copy:
+For optional validation, execute the original compact notebook and save its outputs and an HTML copy:
 
 ```bash
 .venv/bin/python validate_notebook.py
@@ -109,7 +115,9 @@ The resulting `results/review_preview.html` is explicitly labeled as saved outpu
 
 | File | Purpose |
 | --- | --- |
-| `incident_handoff.ipynb` | Step-by-step walkthrough with result tables, a relationship diagram, and a handoff card |
+| `incident_handoff_reshoot.ipynb` | Full walkthrough used in the video, supplied with cleared outputs |
+| `reshoot_view.py` | Scenario cards, comparison, retrieved graph, handoff with sources, and cited-note inspection |
+| `incident_handoff.ipynb` | Original compact walkthrough used by the optional validation command |
 | `demo.py` | Database writes, explicit relationships, searches, fresh conversation, and verification |
 | `fixtures.py` | Four fictional notes and the intended relationship directions |
 | `automatic_update.py` | Separate automatic extraction and relationship example |
@@ -121,7 +129,7 @@ The resulting `results/review_preview.html` is explicitly labeled as saved outpu
 
 ## Verification and limits
 
-The complete notebook passed locally on November 3, 2026. Eight checks covered persisted records, lifecycle status, retrieval filters, recovery context, and relationship types and directions. The handoff and automatic update were also reviewed against their retrieved records. This repository includes a clean notebook; rerun it to produce your own outputs.
+The complete notebook passed locally on November 3, 2026. Eight checks covered persisted records, lifecycle status, retrieval filters, recovery context, and relationship types and directions. The handoff and automatic update were also reviewed against their retrieved records. The expanded video walkthrough was executed and its actual handoff and automatic update reviewed on November 4, 2026. Both notebooks are supplied without saved outputs; run them to produce your own results.
 
 The replaced hypothesis is stored with an invalid lifecycle status and can still appear as connected history. It is excluded from the direct matches in the demonstrated search. The comparison caps each search at one direct match to make relationship traversal visible; it is not a retrieval-quality, speed, or cost benchmark. The larger direct-search control makes that limitation visible.
 
